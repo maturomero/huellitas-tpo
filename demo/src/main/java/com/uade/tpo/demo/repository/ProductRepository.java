@@ -1,5 +1,8 @@
 package com.uade.tpo.demo.repository;
 
-public class ProductRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProductRepository {
     
 }
