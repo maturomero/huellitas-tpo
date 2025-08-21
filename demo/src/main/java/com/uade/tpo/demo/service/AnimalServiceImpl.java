@@ -1,0 +1,67 @@
+package com.uade.tpo.demo.service;
+
+import com.uade.tpo.demo.entity.Animal;
+import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
+import com.uade.tpo.demo.exceptions.AnimalNotExistException;
+import com.uade.tpo.demo.repository.AnimalRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class AnimalServiceImpl {
+    @Autowired
+    private  AnimalRepository repo;
+
+    // Listamos todos los animales
+    public List<Animal> getAnimals() {
+        return repo.findAll();
+    }
+
+    // Buscamos por algun ID especidifco
+    public Optional<Animal> getAnimalById(Long id){
+        return repo.findById(id);
+    }
+
+    // Crear el nuevo animal que queramos
+    public Animal createAnimals(String name) throws AnimalDuplicateException {
+
+        if (!repo.findByName(name).isEmpty()){
+            throw new AnimalDuplicateException();
+        }
+        Animal Animals = new Animal();
+        Animals.setName(name);
+        return repo.save(Animals);
+    }
+
+    // Eliminar por id
+    public void deleteAnimal(long id) throws AnimalNotExistException {
+        Optional<Animal> c = repo.findById(id);
+        if(c.isEmpty()){
+            throw new AnimalNotExistException();
+        }
+        repo.deleteById(id);
+    }
+
+
+    //Editar por animal por id
+    public Animal editAnimal(Long id, String newName) throws AnimalDuplicateException, AnimalNotExistException{
+        
+        Optional<Animal> c = repo.findById(id);
+
+        if (c.isEmpty()){
+            throw new AnimalNotExistException();
+        }
+        if(!repo.findByName(newName).isEmpty()){
+            throw new AnimalDuplicateException();
+        }
+
+        Animal Animals = c.get();
+        Animals.setName(newName);
+
+        return repo.save(Animals);
+    }
+}
