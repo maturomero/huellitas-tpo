@@ -2,11 +2,10 @@ package com.uade.tpo.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Builder;
+
 
 @Entity
 @Data
-@Builder
 public class Animals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +13,6 @@ public class Animals {
 
     
     @Column(nullable = false, unique = true)
-    private String nombre;
+    private String name;
 }
  
