@@ -3,6 +3,6 @@ import lombok.Data;
 
 
 @Data
-public class AnimalsRequest {
+public class AnimalRequest {
     private String name;
 }

@@ -32,7 +32,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(nullable = false, unique = true)
-    private Animals animal;
+    private Animal animal;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

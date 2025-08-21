@@ -3,11 +3,11 @@ package com.uade.tpo.demo.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uade.tpo.demo.entity.Animals;
-import com.uade.tpo.demo.entity.dto.AnimalsRequest;
-import com.uade.tpo.demo.exceptions.AnimalsDuplicateException;
-import com.uade.tpo.demo.exceptions.AnimalsNotExistException;
-import com.uade.tpo.demo.service.AnimalsServiceImpl;
+import com.uade.tpo.demo.entity.Animal;
+import com.uade.tpo.demo.entity.dto.AnimalRequest;
+import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
+import com.uade.tpo.demo.exceptions.AnimalNotExistException;
+import com.uade.tpo.demo.service.AnimalServiceImpl;
 
 
 import java.util.List;
@@ -28,17 +28,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AnimalsControllers {
 
     @Autowired
-    private AnimalsServiceImpl AnimalsService;
+    private AnimalServiceImpl AnimalService;
 
     @GetMapping
-    public ResponseEntity<List <Animals>> getCategories(){
-        return ResponseEntity.ok(AnimalsService.getCategories());
+    public ResponseEntity<List <Animal>> getAnimals(){
+        return ResponseEntity.ok(AnimalService.getAnimals());
     }
     
             
     @GetMapping("/{animalsId}")
-    public ResponseEntity<Animals> getAnimalsById(@PathVariable Long AnimalsId) {
-        Optional<Animals> result = AnimalsService.getAnimalsById(AnimalsId);
+    public ResponseEntity<Animal> getAnimalById(@PathVariable Long AnimalId) {
+        Optional<Animal> result = AnimalService.getAnimalById(AnimalId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
 
@@ -47,16 +47,16 @@ public class AnimalsControllers {
 
 
     @PostMapping
-    public ResponseEntity<Object> createAnimals(@RequestBody AnimalsRequest AnimalsRequest)
-            throws AnimalsDuplicateException {
-        Animals result = AnimalsService.createAnimals(AnimalsRequest.getName());
+    public ResponseEntity<Object> createAnimal(@RequestBody AnimalRequest AnimalRequest)
+            throws AnimalDuplicateException {
+        Animal result = AnimalService.createAnimals(AnimalRequest.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
 
     @DeleteMapping("/{animalsId}")
-    public ResponseEntity <Void> deleteByAnimals(@PathVariable Long AnimalsId) throws AnimalsNotExistException{
-        AnimalsService.deleteAnimals(AnimalsId);
+    public ResponseEntity <Void> deleteByAnimal(@PathVariable Long AnimalId) throws AnimalNotExistException{
+        AnimalService.deleteAnimal(AnimalId);
         return ResponseEntity.noContent().build();
     }
 
@@ -64,8 +64,8 @@ public class AnimalsControllers {
     
 
     @PatchMapping("/{animalsId}")
-    public ResponseEntity <Animals> editByAnimals(@PathVariable Long AnimalsId, @RequestBody AnimalsRequest AnimalsRequest) throws AnimalsDuplicateException, AnimalsNotExistException{
-        Animals result =  AnimalsService.editAnimals(AnimalsId, AnimalsRequest.getName());
+    public ResponseEntity <Animal> editByAnimals(@PathVariable Long AnimalsId, @RequestBody AnimalRequest AnimalRequest) throws AnimalDuplicateException, AnimalNotExistException{
+        Animal result =  AnimalService.editAnimal(AnimalsId, AnimalRequest.getName());
         return ResponseEntity.ok(result);
 
     }

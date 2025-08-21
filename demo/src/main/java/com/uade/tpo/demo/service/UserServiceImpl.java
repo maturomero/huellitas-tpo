@@ -46,7 +46,7 @@ public class UserServiceImpl{
         }
 
         user.get().setStatus(false);
-        userRepository.save(user.get());
+        userRepository.save(user.get()); 
 
         return user;
     }
@@ -57,7 +57,6 @@ public class UserServiceImpl{
         if (!user.isPresent()) {
             return Optional.empty();
         }
-
         return user;
     }
 }
