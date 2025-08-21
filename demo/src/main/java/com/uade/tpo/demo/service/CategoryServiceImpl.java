@@ -1,35 +1,67 @@
-///package com.uade.tpo.demo.service;
-///
-///import java.util.List;
-///import java.util.Optional;
-///
-///import org.springframework.beans.factory.annotation.Autowired;
-///import org.springframework.data.domain.Page;
-///import org.springframework.data.domain.PageRequest;
-///import org.springframework.stereotype.Service;
-///
-///import com.uade.tpo.demo.entity.Category;
-///import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
-///import com.uade.tpo.demo.repository.CategoryRepository;
-///
-///@Service
-///public class CategoryServiceImpl implements CategoryService {
-///
-///    @Autowired
-///    private CategoryRepository categoryRepository;
-///
-///    public Page<Category> getCategories(PageRequest pageable) {
-///        return categoryRepository.findAll(pageable);
-///    }
-///
-///    public Optional<Category> getCategoryById(Long categoryId) {
-///        return categoryRepository.findById(categoryId);
-///    }
-///
-///    public Category createCategory(String description) throws CategoryDuplicateException {
-///        List<Category> categories = categoryRepository.findByDescription(description);
-///        if (categories.isEmpty())
-///            return categoryRepository.save(new Category(description));
-///        throw new CategoryDuplicateException();
-///    }
-///}
+package com.uade.tpo.demo.service;
+
+import com.uade.tpo.demo.entity.Category;
+import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
+import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.repository.CategoryRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CategoryServiceImpl {
+    @Autowired
+    private  CategoryRepository repo;
+
+    // Listamos toda las categorias
+    public List<Category> getCategories() {
+        return repo.findAll();
+    }
+
+    // Buscamos por algun ID especidifco
+    public Optional<Category> getCategoryById(Long id){
+        return repo.findById(id);
+    }
+
+    // Crear la nueva categoria que queramos
+    public Category createCategory(String description) throws CategoryDuplicateException {
+
+        if (!repo.findByDescription(description).isEmpty()){
+            throw new CategoryDuplicateException();
+        }
+        Category category = new Category();
+        category.setDescription(description);
+        return repo.save(category);
+    }
+
+    // Eliminar por id
+    public void deleteCategory(long id) throws CategoryNotExistException {
+        Optional<Category> c = repo.findById(id);
+        if(c.isEmpty()){
+            throw new CategoryNotExistException();
+        }
+        repo.deleteById(id);
+    }
+
+
+    //Editar por categoria por id
+    public Category editCategory(Long id, String newDescription) throws CategoryDuplicateException, CategoryNotExistException{
+        
+        Optional<Category> c = repo.findById(id);
+
+        if (c.isEmpty()){
+            throw new CategoryNotExistException();
+        }
+        if(!repo.findByDescription(newDescription).isEmpty()){
+            throw new CategoryDuplicateException();
+        }
+
+        Category category = c.get();
+        category.setDescription(newDescription);
+
+        return repo.save(category);
+    }
+}

@@ -8,7 +8,6 @@ import lombok.Builder;
 @Data
 @Builder
 public class Animals {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,6 +15,5 @@ public class Animals {
     
     @Column(nullable = false, unique = true)
     private String nombre;
-    
 }
  
