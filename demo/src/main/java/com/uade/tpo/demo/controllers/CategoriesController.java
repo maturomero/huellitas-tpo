@@ -43,7 +43,7 @@ public class CategoriesController {
             return ResponseEntity.ok(result.get());
 
         return ResponseEntity.notFound().build();
-    }
+    }             
 
 
     @PostMapping
