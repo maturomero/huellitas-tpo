@@ -2,16 +2,18 @@ package com.uade.tpo.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Builder;
+
 import java.util.Date;
 
 import com.uade.tpo.demo.enums.StatusOrder;
 
 @Entity
 @Data
-@Builder
 @Table(name = "orders")
+
 public class Order {
+
+    public Order(){}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

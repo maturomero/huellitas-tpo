@@ -1,18 +1,14 @@
 package com.uade.tpo.demo.repository;
 
-
 import java.util.List;
+import com.uade.tpo.demo.entity.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.uade.tpo.demo.entity.Category;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-
-
-@Query("select c FROM Category c WHERE c.description = ?1")
-List<Category> findByDescription(String description);
-
+public interface AnimalRepository extends JpaRepository<Animal, Long>{
+    @Query("SELECT a FROM Animal a WHERE a.name = ?1")
+    List<Animal>findByName(String name);
 }
