@@ -1,19 +1,20 @@
 package com.uade.tpo.demo.entity;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 
 @Entity
 @Data
 public class User {
+    public User(){}
+   
 
     public User(String fullname, String email, String password){
-
         this.fullname = fullname;
         this.email = email;
         this.password = password;
-
     }
 
     @Id
