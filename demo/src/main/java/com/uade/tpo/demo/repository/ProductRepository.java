@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByPrice(double priceMin, double priceMax);
 
     @Query("SELECT c FROM Product c WHERE c.stock >= 0 ")
-    List<Product> AvailableProducts();
+    List<Product> availableProducts();
 
     @Query("SELECT c FROM Product c WHERE  c.category.id = ?1")
     List<Product> findByCategoryId(Long id);
