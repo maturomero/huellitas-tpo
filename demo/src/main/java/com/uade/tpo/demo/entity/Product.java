@@ -31,7 +31,7 @@ public class Product {
     private boolean status = true;
 
     @ManyToOne
-    @JoinColumn(nullable = false, unique = true)
+    @JoinColumn(name = "animal_id") // puede ser NULL
     private Animal animal;
 
     @ManyToOne
