@@ -22,12 +22,7 @@ public class ProductServiceImpl {
     }
     
     public Optional<Product> getProductById(Long id){
-        Optional<Product> p = productRepository.findById(id);
-        if (p.isEmpty()){
-            throw new ProductNotExistException();
-        }
-
-        return p;
+        return productRepository.findById(id); 
     }
 
     public List<Product> getProductByCategoryId(Long id){
