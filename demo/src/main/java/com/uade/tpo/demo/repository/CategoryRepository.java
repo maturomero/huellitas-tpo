@@ -11,8 +11,7 @@ import com.uade.tpo.demo.entity.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-
-@Query("select c FROM Category c WHERE c.description = ?1")
+@Query("select c FROM Category c WHERE c.description = ?1") // = ?1 es para que traiga el primero que encuentre
 List<Category> findByDescription(String description);
 
 }
