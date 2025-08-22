@@ -5,9 +5,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.Product;
+import com.uade.tpo.demo.entity.dto.ProductRequest;
+import com.uade.tpo.demo.exceptions.AnimalNotExistException;
+import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.ProductDuplicateException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
+import com.uade.tpo.demo.exceptions.ProductRequiredFieldException;
+import com.uade.tpo.demo.exceptions.ProductNotNegativeException;
+import com.uade.tpo.demo.repository.AnimalRepository;
 import com.uade.tpo.demo.repository.CategoryRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
@@ -16,6 +24,8 @@ public class ProductServiceImpl {
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private AnimalRepository animalRepository;
     
     public List<Product> getProducts(){
         return productRepository.findAll();
@@ -25,9 +35,102 @@ public class ProductServiceImpl {
         return productRepository.findById(id); 
     }
 
+    public List<Product> getProductsByAnimalId(Long id){
+        return productRepository.findByAnimalId(id);
+    }
+
     public List<Product> getProductByCategoryId(Long id){
         return productRepository.findByCategoryId(id);
     }
 
-    public Product createProduct()
+    public List<Product> getProductByName(String name){
+        return productRepository.findByExactName(name);
+    }
+
+    public List<Product> getProductByPrice(double priceMin, double priceMax){
+        return productRepository.findByPrice(priceMin, priceMax);
+    }
+
+    public Product createProduct(ProductRequest p ) throws ProductDuplicateException, AnimalNotExistException, ProductRequiredFieldException, ProductNotNegativeException, CategoryNotExistException{
+       
+        
+        if (p.getName() == null || p.getName().isEmpty()) {
+            throw new ProductRequiredFieldException();
+        }
+        if (p.getPrice() == null) {
+            throw new ProductRequiredFieldException();
+        }
+        if (p.getStock() == null) {
+            throw new ProductRequiredFieldException();
+        }
+        if (p.getCategoryId() == null) {
+            throw new ProductRequiredFieldException();
+        }
+        if (p.getPrice() < 0) {
+            throw new ProductNotNegativeException();
+        }
+        if (p.getStock().intValue() < 0) {
+            throw new ProductNotNegativeException();
+        }
+
+        if(!productRepository.findByExactName(p.getName()).isEmpty()){
+            throw new ProductDuplicateException();
+        }
+
+        Optional<Animal> animal = null;
+        if (p.getAnimalId() != null) {
+            if (!animalRepository.existsById(p.getAnimalId())) {
+                throw new AnimalNotExistException();
+            }
+            animal = animalRepository.findById(p.getAnimalId());
+        }
+        
+        Optional<Category> c = categoryRepository.findById(p.getCategoryId());
+        if(c.isEmpty()){
+            throw new CategoryNotExistException();
+        }
+        Product product = new Product(p.getName(), p.getPrice(),p.getStock());
+        product.setAnimal(animal.get());
+        product.setCategory(c.get());
+
+        return productRepository.save(product);
+    }
+
+    public void deleteProduct(Long id) throws ProductNotExistException{
+        Optional<Product> p = productRepository.findById(id);
+        if(p.isEmpty()){
+            throw new ProductNotExistException();
+        }
+        productRepository.deleteById(id);
+    }
+
+    public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException{
+        Optional<Product> product = productRepository.findById(id);
+
+        if(product.isEmpty()){
+            throw new ProductNotExistException();
+        }
+        
+        Product p = product.get();
+
+        if (pRequest.getName() != null && productRepository.findByExactName(pRequest.getName()).isEmpty()) {
+            p.setName(pRequest.getName());
+        }
+        if (pRequest.getPrice() != null) {
+            p.setPrice(pRequest.getPrice());
+        }
+        if (pRequest.getStock() != null) {
+            p.setStock(pRequest.getStock());
+        }
+        if (pRequest.getCategoryId() != null) {
+            Optional<Category> c = categoryRepository.findById(pRequest.getCategoryId());
+            if(c.isEmpty()){
+                throw new CategoryNotExistException();
+            }
+        }
+        //if(!animalRepository.findById((pRequest.getAnimalId())).isEmpty()){
+        //    
+        //}
+        productRepository.save(p);
+    }
 }
