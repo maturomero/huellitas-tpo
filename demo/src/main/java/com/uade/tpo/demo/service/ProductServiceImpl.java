@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.entity.Category;
@@ -19,6 +20,7 @@ import com.uade.tpo.demo.repository.AnimalRepository;
 import com.uade.tpo.demo.repository.CategoryRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
+@Service
 public class ProductServiceImpl {
     @Autowired
     private ProductRepository productRepository;
@@ -47,7 +49,7 @@ public class ProductServiceImpl {
         return productRepository.findByExactName(name);
     }
 
-    public List<Product> getProductByPrice(double priceMin, double priceMax){
+    public List<Product> getProductsByPrice(double priceMin, double priceMax){
         return productRepository.findByPrice(priceMin, priceMax);
     }
 
@@ -83,7 +85,7 @@ public class ProductServiceImpl {
                 throw new AnimalNotExistException();
             }
             animal = animalRepository.findById(p.getAnimalId());
-        }
+        } 
         
         Optional<Category> c = categoryRepository.findById(p.getCategoryId());
         if(c.isEmpty()){
