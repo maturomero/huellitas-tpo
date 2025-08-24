@@ -37,11 +37,19 @@ public class ProductServiceImpl {
         return productRepository.findById(id); 
     }
 
-    public List<Product> getProductsByAnimalId(Long id){
+    public List<Product> getProductsByAnimalId(Long id) throws AnimalNotExistException{
+        Optional<Animal> a = animalRepository.findById(id);
+        if(a.isEmpty()){
+            throw new AnimalNotExistException();
+        }
         return productRepository.findByAnimalId(id);
     }
 
-    public List<Product> getProductByCategoryId(Long id){
+    public List<Product> getProductByCategoryId(Long id) throws CategoryNotExistException{
+        Optional<Category> c = categoryRepository.findById(id);
+        if(c.isEmpty()){
+            throw new CategoryNotExistException();
+        }
         return productRepository.findByCategoryId(id);
     }
 
@@ -79,12 +87,13 @@ public class ProductServiceImpl {
             throw new ProductDuplicateException();
         }
 
-        Optional<Animal> animal = null;
+        Animal animal = null;
         if (p.getAnimalId() != null) {
-            if (!animalRepository.existsById(p.getAnimalId())) {
+            Optional<Animal> a = animalRepository.findById(p.getAnimalId());
+            if (a.isEmpty()){
                 throw new AnimalNotExistException();
             }
-            animal = animalRepository.findById(p.getAnimalId());
+            animal = a.get();
         } 
         
         Optional<Category> c = categoryRepository.findById(p.getCategoryId());
@@ -92,7 +101,7 @@ public class ProductServiceImpl {
             throw new CategoryNotExistException();
         }
         Product product = new Product(p.getName(), p.getPrice(),p.getStock());
-        product.setAnimal(animal.get());
+        product.setAnimal(animal);
         product.setCategory(c.get());
 
         return productRepository.save(product);
