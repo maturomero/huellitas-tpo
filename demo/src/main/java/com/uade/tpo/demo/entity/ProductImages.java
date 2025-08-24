@@ -1,12 +1,10 @@
 package com.uade.tpo.demo.entity;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
-
+//No usamos builder
 @Entity
 @Data
-@Builder
 public class ProductImages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

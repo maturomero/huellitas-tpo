@@ -40,7 +40,7 @@ public class ProductController {
     }
     
 
-    @GetMapping("/{ProductId}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> p = productService.getProductById(id);
         if(p.isPresent()){
@@ -55,8 +55,13 @@ public class ProductController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable Long id) {
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable Long id) throws CategoryNotExistException {
         return ResponseEntity.ok(productService.getProductByCategoryId(id));
+    }
+
+    @GetMapping("/animals/{id}")
+    public ResponseEntity<List<Product>> getProductsByAnimal(@PathVariable Long id) throws AnimalNotExistException {
+        return ResponseEntity.ok(productService.getProductsByAnimalId(id));
     }
 
     @PostMapping
@@ -80,7 +85,7 @@ public class ProductController {
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<String> editProduct(@PatchVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException{
+    public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException{
         if(productRequest.getPrice() != null && productRequest.getPrice() <= 0){
             throw new ProductNotNegativeException();
         }
