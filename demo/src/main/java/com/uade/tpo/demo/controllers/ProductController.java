@@ -85,7 +85,7 @@ public class ProductController {
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException{
+    public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException {
         if(productRequest.getPrice() != null && productRequest.getPrice() <= 0){
             throw new ProductNotNegativeException();
         }
