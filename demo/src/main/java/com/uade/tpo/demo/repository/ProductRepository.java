@@ -27,6 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByAnimalId(Long id);
 
     @Query("SELECT c FROM Product c WHERE  c.category.id = ?1")
-    List<Product> findByCategoryId(Long id);
+    List<Product> findByCategoryId(Long id);  
+    
 
 }

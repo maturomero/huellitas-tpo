@@ -115,7 +115,7 @@ public class ProductServiceImpl {
         productRepository.deleteById(id);
     }
 
-    public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException{
+    public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){
@@ -133,15 +133,31 @@ public class ProductServiceImpl {
         if (pRequest.getStock() != null) {
             p.setStock(pRequest.getStock());
         }
+
         if (pRequest.getCategoryId() != null) {
             Optional<Category> c = categoryRepository.findById(pRequest.getCategoryId());
             if(c.isEmpty()){
-                throw new CategoryNotExistException();
+                throw new CategoryNotExistException();}
+            else{
+                 p.setCategory(c.get());
             }
+
+        }else{
+            throw new ProductRequiredFieldException();
         }
-        //if(!animalRepository.findById((pRequest.getAnimalId())).isEmpty()){
-        //    
-        //}
+
+
+        if (pRequest.getAnimalId() != null) {
+            Optional<Animal> a = animalRepository.findById(pRequest.getAnimalId());
+            if (a.isPresent()) {
+                p.setAnimal(a.get());
+            } else {
+            throw new AnimalNotExistException();
+            }
+        } else {
+            p.setAnimal(null);
+        }
+    
         productRepository.save(p);
     }
 }
