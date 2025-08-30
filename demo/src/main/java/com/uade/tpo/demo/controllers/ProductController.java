@@ -84,7 +84,7 @@ public class ProductController {
         return ResponseEntity.ok("Se elimino el producto. ");
     }
     
-    @PatchMapping("/{id}")
+    /*@PatchMapping("/{id}")
     public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException {
         if(productRequest.getPrice() != null && productRequest.getPrice() <= 0){
             throw new ProductNotNegativeException();
@@ -95,6 +95,6 @@ public class ProductController {
 
         productService.editProduct(id, productRequest);
         return ResponseEntity.ok("Se edito el producto. ");
-    }
+    }*/
 
 }
