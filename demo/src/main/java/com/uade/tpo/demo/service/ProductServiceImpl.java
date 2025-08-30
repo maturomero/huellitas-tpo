@@ -11,6 +11,7 @@ import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.dto.ProductRequest;
+import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
 import com.uade.tpo.demo.exceptions.ProductDuplicateException;
@@ -91,10 +92,14 @@ public class ProductServiceImpl {
         List<Animal> animals = new ArrayList<>();
 
         if (p.getAnimalId() != null && !p.getAnimalId().isEmpty()) {
+            List<Long> vistos = new ArrayList<>();
             int i = 0;
             while (i < p.getAnimalId().size()) {
                 Long idAnimal = p.getAnimalId().get(i++);
                 if (idAnimal == null) {
+                    throw new ProductRequiredFieldException();
+                }
+                if(vistos.contains(idAnimal)){
                     continue;
                 }
                 Optional<Animal> a = animalRepository.findById(idAnimal);
@@ -102,7 +107,10 @@ public class ProductServiceImpl {
                     throw new AnimalNotExistException();
                 }
                 animals.add(a.get());
+                vistos.add(idAnimal);
             }
+        }else{
+            throw new ProductRequiredFieldException();
         }
 
 
@@ -125,7 +133,7 @@ public class ProductServiceImpl {
         productRepository.deleteById(id);
     }
 
-    /*public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
+    public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){
@@ -151,23 +159,36 @@ public class ProductServiceImpl {
             else{
                  p.setCategory(c.get());
             }
-
-        }else{
-            throw new ProductRequiredFieldException();
         }
 
 
-        if (pRequest.getAnimalId() != null) {
-            Optional<Animal> a = animalRepository.findById(pRequest.getAnimalId());
-            if (a.isPresent()) {
-                p.setAnimal(a.get());
-            } else {
-            throw new AnimalNotExistException();
+        if(pRequest.getAnimalId() != null){ 
+            List<Animal> animals = new ArrayList<>();
+
+            if (!pRequest.getAnimalId().isEmpty()) {
+                List<Long> vistos = new ArrayList<>();
+                int i = 0;
+                while (i < pRequest.getAnimalId().size()) {
+                    Long idAnimal = pRequest.getAnimalId().get(i++);
+                    if (idAnimal == null) {
+                        throw new ProductRequiredFieldException();
+                    }
+                    if(vistos.contains(idAnimal)){
+                        continue;
+                    }
+                    Optional<Animal> a = animalRepository.findById(idAnimal);
+                    if(a.isEmpty()){
+                        throw new AnimalNotExistException();
+                    }
+                    animals.add(a.get());
+                    vistos.add(idAnimal);
+                }
+            }else{
+                throw new ProductRequiredFieldException();
             }
-        } else {
-            p.setAnimal(null);
-        }
+            p.setAnimal(animals);
+        }    
     
         productRepository.save(p);
-    }*/
+    }
 }
