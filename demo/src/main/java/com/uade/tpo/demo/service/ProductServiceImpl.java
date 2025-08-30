@@ -1,5 +1,6 @@
 package com.uade.tpo.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,21 +88,30 @@ public class ProductServiceImpl {
             throw new ProductDuplicateException();
         }
 
-        Animal animal = null;
-        if (p.getAnimalId() != null) {
-            Optional<Animal> a = animalRepository.findById(p.getAnimalId());
-            if (a.isEmpty()){
-                throw new AnimalNotExistException();
+        List<Animal> animals = new ArrayList<>();
+
+        if (p.getAnimalId() != null && !p.getAnimalId().isEmpty()) {
+            int i = 0;
+            while (i < p.getAnimalId().size()) {
+                Long idAnimal = p.getAnimalId().get(i++);
+                if (idAnimal == null) {
+                    continue;
+                }
+                Optional<Animal> a = animalRepository.findById(idAnimal);
+                if(a.isEmpty()){
+                    throw new AnimalNotExistException();
+                }
+                animals.add(a.get());
             }
-            animal = a.get();
-        } 
-        
+        }
+
+
         Optional<Category> c = categoryRepository.findById(p.getCategoryId());
         if(c.isEmpty()){
             throw new CategoryNotExistException();
         }
         Product product = new Product(p.getName(), p.getPrice(),p.getStock());
-        product.setAnimal(animal);
+        product.setAnimal(animals);
         product.setCategory(c.get());
 
         return productRepository.save(product);
@@ -115,7 +125,7 @@ public class ProductServiceImpl {
         productRepository.deleteById(id);
     }
 
-    public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
+    /*public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){
@@ -159,5 +169,5 @@ public class ProductServiceImpl {
         }
     
         productRepository.save(p);
-    }
+    }*/
 }

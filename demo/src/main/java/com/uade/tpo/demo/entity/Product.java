@@ -1,5 +1,7 @@
 package com.uade.tpo.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,9 +34,10 @@ public class Product {
     @Column(nullable = false)
     private boolean status = true;
 
-    @ManyToOne
-    @JoinColumn(name = "animal_id") // puede ser NULL
-    private Animal animal;
+    @ManyToMany
+    @JoinTable(name = "product_animals", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "animal_id"))
+    private List<Animal> animal;
+
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
