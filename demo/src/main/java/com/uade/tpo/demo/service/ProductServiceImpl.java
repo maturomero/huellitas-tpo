@@ -33,7 +33,7 @@ public class ProductServiceImpl {
     public List<Product> getProducts(){
         return productRepository.findAll();
     }
-    
+     
     public Optional<Product> getProductById(Long id){
         return productRepository.findById(id); 
     }
