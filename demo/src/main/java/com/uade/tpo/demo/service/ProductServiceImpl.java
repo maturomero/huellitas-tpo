@@ -11,7 +11,6 @@ import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.dto.ProductRequest;
-import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
 import com.uade.tpo.demo.exceptions.ProductDuplicateException;
@@ -34,7 +33,7 @@ public class ProductServiceImpl {
     public List<Product> getProducts(){
         return productRepository.findAll();
     }
-    
+     
     public Optional<Product> getProductById(Long id){
         return productRepository.findById(id); 
     }
