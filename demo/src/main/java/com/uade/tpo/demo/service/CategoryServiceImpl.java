@@ -22,7 +22,7 @@ public class CategoryServiceImpl {
     }
 
     // Buscamos por algun ID especidifco
-    public Optional<Category> getCategoryById(Long id){
+    public Optional<Category> getCategoryById(Long id) {
         return repo.findById(id);
     }
 

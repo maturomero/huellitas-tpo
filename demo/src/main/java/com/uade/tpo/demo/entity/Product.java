@@ -1,5 +1,9 @@
 package com.uade.tpo.demo.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,6 +11,8 @@ import lombok.Data;
 @Entity
 @Data
 public class Product {
+
+    public Product(){}
 
     public Product(String name, double price, int stock){
         this.name = name;
@@ -30,10 +36,12 @@ public class Product {
     @Column(nullable = false)
     private boolean status = true;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, unique = true)
-    private Animal animal;
+    @JsonIgnoreProperties({"id"})
+    @ManyToMany
+    @JoinTable(name = "product_animals", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "animal_id"))
+    private List<Animal> animal;
 
+    @JsonIgnoreProperties({"id"})
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
