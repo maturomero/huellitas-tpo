@@ -36,9 +36,9 @@ public class AnimalsControllers {
     }
     
             
-    @GetMapping("/{animalsId}")
-    public ResponseEntity<Animal> getAnimalById(@PathVariable Long AnimalId) {
-        Optional<Animal> result = AnimalService.getAnimalById(AnimalId);
+    @GetMapping("/{animalId}")
+    public ResponseEntity<Animal> getAnimalById(@PathVariable Long animalId) {
+        Optional<Animal> result = AnimalService.getAnimalById(animalId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
 
@@ -54,18 +54,18 @@ public class AnimalsControllers {
     }
 
 
-    @DeleteMapping("/{animalsId}")
-    public ResponseEntity <Void> deleteByAnimal(@PathVariable Long AnimalId) throws AnimalNotExistException{
-        AnimalService.deleteAnimal(AnimalId);
+    @DeleteMapping("/{animalId}")
+    public ResponseEntity <Void> deleteByAnimal(@PathVariable Long animalId) throws AnimalNotExistException{
+        AnimalService.deleteAnimal(animalId);
         return ResponseEntity.noContent().build();
     }
 
 
     
 
-    @PatchMapping("/{animalsId}")
-    public ResponseEntity <Animal> editByAnimals(@PathVariable Long AnimalsId, @RequestBody AnimalRequest AnimalRequest) throws AnimalDuplicateException, AnimalNotExistException{
-        Animal result =  AnimalService.editAnimal(AnimalsId, AnimalRequest.getName());
+    @PatchMapping("/{animalId}")
+    public ResponseEntity <Animal> editByAnimals(@PathVariable Long animalId, @RequestBody AnimalRequest AnimalRequest) throws AnimalDuplicateException, AnimalNotExistException{
+        Animal result =  AnimalService.editAnimal(animalId, AnimalRequest.getName());
         return ResponseEntity.ok(result);
 
     }
