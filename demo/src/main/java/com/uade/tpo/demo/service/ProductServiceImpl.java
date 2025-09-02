@@ -129,7 +129,8 @@ public class ProductServiceImpl {
         if(p.isEmpty()){
             throw new ProductNotExistException();
         }
-        productRepository.deleteById(id);
+        p.get().setStatus(false);
+        productRepository.save(p.get());
     }
 
     public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
