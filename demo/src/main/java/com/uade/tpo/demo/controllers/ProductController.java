@@ -70,7 +70,7 @@ public class ProductController {
             throw new ProductNotNegativeException();
         }
         
-        if(productRequest.getStock() <= 0){
+        if(productRequest.getStock() < 0){
             throw new ProductNotNegativeException();
         }
 
