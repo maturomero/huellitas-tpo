@@ -191,4 +191,15 @@ public class ProductServiceImpl {
     
         productRepository.save(p);
     }
+
+    private void reduceStock(Long id, int quantity) throws ProductNotExistException{
+        Optional<Product> pOptional = productRepository.findById(id);
+        if(pOptional.isEmpty()){
+            throw new ProductNotExistException();
+        }
+
+        Product p = pOptional.get();
+        p.setStock(p.getStock() - quantity);
+        productRepository.save(p);
+    }
 }
