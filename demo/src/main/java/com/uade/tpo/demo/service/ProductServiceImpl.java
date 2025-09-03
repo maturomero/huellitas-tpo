@@ -31,11 +31,11 @@ public class ProductServiceImpl {
     private AnimalRepository animalRepository;
     
     public List<Product> getProducts(){
-        return productRepository.findAll();
+        return productRepository.findAllStock();
     }
      
     public Optional<Product> getProductById(Long id){
-        return productRepository.findById(id); 
+        return productRepository.findByIdStock(id); 
     }
 
     public List<Product> getProductsByAnimalId(Long id) throws AnimalNotExistException{
@@ -84,7 +84,7 @@ public class ProductServiceImpl {
             throw new ProductNotNegativeException();
         }
 
-        if(!productRepository.findByExactName(p.getName()).isEmpty()){
+        if(!productRepository.findAnyByExactName(p.getName()).isEmpty()){
             throw new ProductDuplicateException();
         }
 
@@ -142,7 +142,7 @@ public class ProductServiceImpl {
         
         Product p = product.get();
 
-        if (pRequest.getName() != null && productRepository.findByExactName(pRequest.getName()).isEmpty()) {
+        if (pRequest.getName() != null && productRepository.findAnyByExactName(pRequest.getName()).isEmpty()) {
             p.setName(pRequest.getName());
         }
         if (pRequest.getPrice() != null) {
