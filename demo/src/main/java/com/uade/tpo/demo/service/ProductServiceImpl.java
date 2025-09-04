@@ -31,11 +31,11 @@ public class ProductServiceImpl {
     private AnimalRepository animalRepository;
     
     public List<Product> getProducts(){
-        return productRepository.findAll();
+        return productRepository.findAllStock();
     }
      
     public Optional<Product> getProductById(Long id){
-        return productRepository.findById(id); 
+        return productRepository.findByIdStock(id); 
     }
 
     public List<Product> getProductsByAnimalId(Long id) throws AnimalNotExistException{
@@ -84,7 +84,7 @@ public class ProductServiceImpl {
             throw new ProductNotNegativeException();
         }
 
-        if(!productRepository.findByExactName(p.getName()).isEmpty()){
+        if(!productRepository.findAnyByExactName(p.getName()).isEmpty()){
             throw new ProductDuplicateException();
         }
 
@@ -129,7 +129,8 @@ public class ProductServiceImpl {
         if(p.isEmpty()){
             throw new ProductNotExistException();
         }
-        productRepository.deleteById(id);
+        p.get().setStatus(false);
+        productRepository.save(p.get());
     }
 
     public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
@@ -141,7 +142,7 @@ public class ProductServiceImpl {
         
         Product p = product.get();
 
-        if (pRequest.getName() != null && productRepository.findByExactName(pRequest.getName()).isEmpty()) {
+        if (pRequest.getName() != null && productRepository.findAnyByExactName(pRequest.getName()).isEmpty()) {
             p.setName(pRequest.getName());
         }
         if (pRequest.getPrice() != null) {
@@ -188,6 +189,17 @@ public class ProductServiceImpl {
             p.setAnimal(animals);
         }    
     
+        productRepository.save(p);
+    }
+
+    public void reduceStock(Long id, int quantity) throws ProductNotExistException{
+        Optional<Product> pOptional = productRepository.findById(id);
+        if(pOptional.isEmpty()){
+            throw new ProductNotExistException();
+        }
+
+        Product p = pOptional.get();
+        p.setStock(p.getStock() - quantity);
         productRepository.save(p);
     }
 }

@@ -2,7 +2,7 @@ package com.uade.tpo.demo.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -35,13 +35,15 @@ public class Product {
 
     @Column(nullable = false)
     private boolean status = true;
+    
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference   //esta notacion es para marcar quien es el padre en la relacion bidireccional
+    private List<ProductImages> productImages;
 
-    @JsonIgnoreProperties({"id"})
     @ManyToMany
     @JoinTable(name = "product_animals", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "animal_id"))
     private List<Animal> animal;
-
-    @JsonIgnoreProperties({"id"})
+    
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

@@ -25,8 +25,8 @@ public class ProductImagesServiceImpl {
     public ProductImages uploadImage(Long productId, ProductImageUpload productImageUpload ){
         ProductImages pI = new ProductImages();
         Optional<Product> p = productRepository.findById(productId);
-        pI.setProduct(p.get());
         pI.setUrlImage(productImageUpload.getUrlImage());
+        pI.setProduct(p.get());
         
         return productImagesRepository.save(pI);
         
