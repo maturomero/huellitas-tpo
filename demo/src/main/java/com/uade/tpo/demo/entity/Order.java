@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uade.tpo.demo.enums.StatusOrder;
 
 @Entity
@@ -27,10 +29,14 @@ public class Order {
     private StatusOrder status;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date createdAt;
+    @Column(nullable = false, updatable = false)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    private List<OrderProduct> orderProducts;
 }
