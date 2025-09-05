@@ -6,7 +6,7 @@ import com.uade.tpo.demo.exceptions.OrderNotExistException;
 import com.uade.tpo.demo.exceptions.UserNotFoundException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
 import com.uade.tpo.demo.exceptions.InsufficientStockException;
-import com.uade.tpo.demo.service.OrderServiceImpl;
+import com.uade.tpo.demo.service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class OrdersController {
 
     @Autowired
-    private OrderServiceImpl orderService;
+    private OrderService orderService;
 
     @GetMapping
     public List<Order> getAllOrders() {

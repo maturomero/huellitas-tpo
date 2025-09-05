@@ -2,7 +2,7 @@ package com.uade.tpo.demo.controllers;
 
 import java.util.List;
 import java.util.Optional;
-import com.uade.tpo.demo.service.ProductServiceImpl;
+import com.uade.tpo.demo.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("products")
 public class ProductController {
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getProducts(){

@@ -18,14 +18,14 @@ import com.uade.tpo.demo.entity.User;
 import com.uade.tpo.demo.entity.dto.UserResponse;
 import com.uade.tpo.demo.entity.dto.UserRequest;
 import com.uade.tpo.demo.exceptions.UserDuplicateException;
-import com.uade.tpo.demo.service.UserServiceImpl;
+import com.uade.tpo.demo.service.UserService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest userRequest) throws UserDuplicateException {

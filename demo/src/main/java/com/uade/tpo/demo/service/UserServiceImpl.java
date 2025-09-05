@@ -10,7 +10,7 @@ import com.uade.tpo.demo.entity.User;
 import com.uade.tpo.demo.repository.UserRepository;
 
 @Service
-public class UserServiceImpl{
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 

@@ -7,7 +7,7 @@ import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.entity.dto.AnimalRequest;
 import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
-import com.uade.tpo.demo.service.AnimalServiceImpl;
+import com.uade.tpo.demo.service.AnimalService;
 
 
 import java.util.List;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AnimalsControllers {
 
     @Autowired
-    private AnimalServiceImpl AnimalService;
+    private AnimalService AnimalService;
 
     @GetMapping
     public ResponseEntity<List <Animal>> getAnimals(){

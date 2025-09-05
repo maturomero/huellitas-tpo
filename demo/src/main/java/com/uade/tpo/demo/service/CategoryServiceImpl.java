@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private  CategoryRepository repo;
 

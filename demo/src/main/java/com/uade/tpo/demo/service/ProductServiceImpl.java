@@ -22,7 +22,7 @@ import com.uade.tpo.demo.repository.CategoryRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
 @Service
-public class ProductServiceImpl {
+public class ProductServiceImpl implements ProductService{
     @Autowired
     private ProductRepository productRepository;
     @Autowired
