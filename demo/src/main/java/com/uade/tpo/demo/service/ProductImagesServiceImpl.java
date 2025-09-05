@@ -14,7 +14,7 @@ import com.uade.tpo.demo.repository.ProductImagesRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
 @Service
-public class ProductImagesServiceImpl {
+public class ProductImagesServiceImpl implements ProductImagesService {
 
     @Autowired
     private ProductImagesRepository productImagesRepository;

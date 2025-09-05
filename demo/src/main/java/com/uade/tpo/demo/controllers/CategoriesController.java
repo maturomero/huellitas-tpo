@@ -7,8 +7,7 @@ import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.dto.CategoryRequest;
 import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
-import com.uade.tpo.demo.service.CategoryServiceImpl;
-
+import com.uade.tpo.demo.service.CategoryService;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CategoriesController {
 
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
+
 
     @GetMapping
     public ResponseEntity<List <Category>> getCategories(){
