@@ -29,7 +29,7 @@ public class OrdersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) throws OrderNotExistException {
         Optional<Order> order = orderService.getOrderById(id);
         if (order.isPresent()) {
             return ResponseEntity.ok(order.get());
