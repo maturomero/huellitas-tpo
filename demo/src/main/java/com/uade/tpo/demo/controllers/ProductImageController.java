@@ -39,14 +39,14 @@ public class ProductImageController {
     }
     
     @DeleteMapping("/{imageId}")
-    public ResponseEntity<String> deleteOneImageProduct(@PathVariable Long idImage) throws ProductImagesNotExistException{
-        productImagesService.deleteOneImageProduct(idImage);
+    public ResponseEntity<String> deleteOneImageProduct(@PathVariable Long imageId) throws ProductImagesNotExistException{
+        productImagesService.deleteOneImageProduct(imageId);
         return ResponseEntity.ok("La imagen del producto se eliminó correctamente. ");
     }
 
     @DeleteMapping("/{productId}/all")
-    public ResponseEntity<String> deleteAllImagesProduct(@PathVariable Long idProduct ) throws ProductImagesNotExistException{
-        productImagesService.getProductImgaesById(idProduct);
+    public ResponseEntity<String> deleteAllImagesProduct(@PathVariable Long productId ) throws ProductImagesNotExistException{
+        productImagesService.deleteAllImagesProduct(productId);
         return ResponseEntity.ok("Todas las imagenes del producto se eliminaron correctamente. ");
     }
 }
