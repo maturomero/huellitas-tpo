@@ -27,7 +27,7 @@ public class ProductImageController {
     private ProductImagesService productImagesService;
 
     @GetMapping("/{productId}")
-    public ResponseEntity<List<ProductImages>> getProductImages(@PathVariable Long productId) {
+    public ResponseEntity<List<ProductImages>> getProductImages(@PathVariable Long productId) throws ProductImagesNotExistException {
         List<ProductImages> i = productImagesService.getProductImgaesById(productId);
         return ResponseEntity.ok(i);
     }
@@ -45,7 +45,7 @@ public class ProductImageController {
     }
 
     @DeleteMapping("/{productId}/all")
-    public ResponseEntity<String> deleteAllImagesProduct(@PathVariable Long idProduct ){
+    public ResponseEntity<String> deleteAllImagesProduct(@PathVariable Long idProduct ) throws ProductImagesNotExistException{
         productImagesService.getProductImgaesById(idProduct);
         return ResponseEntity.ok("Todas las imagenes del producto se eliminaron correctamente. ");
     }

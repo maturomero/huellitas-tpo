@@ -8,7 +8,7 @@ import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
 
 public interface ProductImagesService {
     public ProductImages uploadImage(Long productId, ProductImageUpload productImageUpload );
-    public List<ProductImages> getProductImgaesById(Long productId);
+    public List<ProductImages> getProductImgaesById(Long productId) throws ProductImagesNotExistException;
     public void deleteOneImageProduct(Long imageId) throws ProductImagesNotExistException;
     public void deleteAllImagesProduct(Long productId) throws ProductImagesNotExistException;
 }
