@@ -41,7 +41,7 @@ public class ProductImagesServiceImpl implements ProductImagesService {
     }
 
     public void deleteOneImageProduct(Long imageId) throws ProductImagesNotExistException{
-        List<ProductImages> pI = productImagesRepository.findProdcutById(imageId);
+        Optional<ProductImages> pI = productImagesRepository.findById(imageId);
         if(pI.isEmpty()){
             throw new ProductImagesNotExistException();
         }
