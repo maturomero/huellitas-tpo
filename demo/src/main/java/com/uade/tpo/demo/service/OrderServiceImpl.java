@@ -40,8 +40,12 @@ public class OrderServiceImpl implements OrderService{
 
 
     
-    public Optional<Order> getOrderById(Long id){
-        return orderRepository.findById(id);
+    public Optional<Order> getOrderById(Long id) throws OrderNotExistException{
+        Optional<Order> o = orderRepository.findById(id);
+        if(o.isEmpty()){
+            throw new OrderNotExistException();
+        }
+        return o;
     }
 
     public List<Order> getAllOrders() {
