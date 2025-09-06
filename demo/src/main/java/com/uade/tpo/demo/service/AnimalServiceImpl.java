@@ -23,8 +23,12 @@ public class AnimalServiceImpl implements AnimalService{
     }
 
     // Buscamos por algun ID especidifco
-    public Optional<Animal> getAnimalById(Long id){
-        return repo.findById(id);
+    public Optional<Animal> getAnimalById(Long id) throws AnimalNotExistException{
+        Optional<Animal> r = repo.findById(id);
+        if(r.isEmpty()){
+            throw new AnimalNotExistException();
+        }
+        return r;
     }
 
     // Crear el nuevo animal que queramos
