@@ -41,7 +41,7 @@ public class ProductController {
     
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) throws ProductNotExistException {
         Optional<Product> p = productService.getProductById(id);
         if(p.isPresent()){
             return ResponseEntity.ok(p.get());
