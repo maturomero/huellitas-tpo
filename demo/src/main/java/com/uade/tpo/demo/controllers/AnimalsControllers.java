@@ -37,7 +37,7 @@ public class AnimalsControllers {
     
             
     @GetMapping("/{animalId}")
-    public ResponseEntity<Animal> getAnimalById(@PathVariable Long animalId) {
+    public ResponseEntity<Animal> getAnimalById(@PathVariable Long animalId) throws AnimalNotExistException {
         Optional<Animal> result = AnimalService.getAnimalById(animalId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());

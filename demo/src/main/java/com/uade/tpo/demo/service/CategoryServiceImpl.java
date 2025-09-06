@@ -22,8 +22,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     // Buscamos por algun ID especidifco
-    public Optional<Category> getCategoryById(Long id) {
-        return repo.findById(id);
+    public Optional<Category> getCategoryById(Long id) throws CategoryNotExistException {
+        Optional<Category> r = repo.findById(id);
+        if(r.isEmpty()){
+            throw new CategoryNotExistException();
+        }
+        return r;
     }
 
     // Crear la nueva categoria que queramos
