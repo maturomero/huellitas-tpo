@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.demo.entity.ProductImages;
 import com.uade.tpo.demo.entity.dto.ProductImageUpload;
 import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
-import com.uade.tpo.demo.service.ProductImagesServiceImpl;
+import com.uade.tpo.demo.service.ProductImagesService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,29 +24,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/products/images")
 public class ProductImageController {
     @Autowired
-    private ProductImagesServiceImpl productImagesServiceImpl;
+    private ProductImagesService productImagesService;
 
     @GetMapping("/{productId}")
-    public ResponseEntity<List<ProductImages>> getProductImages(@PathVariable Long productId) {
-        List<ProductImages> i = productImagesServiceImpl.getProductImgaesById(productId);
+    public ResponseEntity<List<ProductImages>> getProductImages(@PathVariable Long productId) throws ProductImagesNotExistException {
+        List<ProductImages> i = productImagesService.getProductImgaesById(productId);
         return ResponseEntity.ok(i);
     }
     
     @PostMapping("/{productId}")
     public ResponseEntity<ProductImages> uploadImage(@PathVariable Long productId , @RequestBody ProductImageUpload productImageUpload) {
-        ProductImages i = productImagesServiceImpl.uploadImage(productId, productImageUpload);
+        ProductImages i = productImagesService.uploadImage(productId, productImageUpload);
         return ResponseEntity.ok(i);
     }
     
     @DeleteMapping("/{imageId}")
     public ResponseEntity<String> deleteOneImageProduct(@PathVariable Long idImage) throws ProductImagesNotExistException{
-        productImagesServiceImpl.deleteOneImageProduct(idImage);
+        productImagesService.deleteOneImageProduct(idImage);
         return ResponseEntity.ok("La imagen del producto se eliminó correctamente. ");
     }
 
     @DeleteMapping("/{productId}/all")
-    public ResponseEntity<String> deleteAllImagesProduct(@PathVariable Long idProduct ){
-        productImagesServiceImpl.getProductImgaesById(idProduct);
+    public ResponseEntity<String> deleteAllImagesProduct(@PathVariable Long idProduct ) throws ProductImagesNotExistException{
+        productImagesService.getProductImgaesById(idProduct);
         return ResponseEntity.ok("Todas las imagenes del producto se eliminaron correctamente. ");
     }
 }

@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
-public class AnimalServiceImpl {
+public class AnimalServiceImpl implements AnimalService{
     @Autowired
     private  AnimalRepository repo;
 
@@ -22,8 +23,12 @@ public class AnimalServiceImpl {
     }
 
     // Buscamos por algun ID especidifco
-    public Optional<Animal> getAnimalById(Long id){
-        return repo.findById(id);
+    public Optional<Animal> getAnimalById(Long id) throws AnimalNotExistException{
+        Optional<Animal> r = repo.findById(id);
+        if(r.isEmpty()){
+            throw new AnimalNotExistException();
+        }
+        return r;
     }
 
     // Crear el nuevo animal que queramos

@@ -14,7 +14,7 @@ import com.uade.tpo.demo.repository.ProductImagesRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
 @Service
-public class ProductImagesServiceImpl {
+public class ProductImagesServiceImpl implements ProductImagesService {
 
     @Autowired
     private ProductImagesRepository productImagesRepository;
@@ -32,8 +32,12 @@ public class ProductImagesServiceImpl {
         
     }
     
-    public List<ProductImages> getProductImgaesById(Long productId){
-        return productImagesRepository.findProdcutById(productId);
+    public List<ProductImages> getProductImgaesById(Long productId) throws ProductImagesNotExistException{
+        List<ProductImages> pI = productImagesRepository.findProdcutById(productId);
+        if(pI.isEmpty()){
+            throw new ProductImagesNotExistException();
+        }
+        return pI;
     }
 
     public void deleteOneImageProduct(Long imageId) throws ProductImagesNotExistException{

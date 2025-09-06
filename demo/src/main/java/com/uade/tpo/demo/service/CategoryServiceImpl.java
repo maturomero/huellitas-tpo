@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private  CategoryRepository repo;
 
@@ -22,8 +22,12 @@ public class CategoryServiceImpl {
     }
 
     // Buscamos por algun ID especidifco
-    public Optional<Category> getCategoryById(Long id) {
-        return repo.findById(id);
+    public Optional<Category> getCategoryById(Long id) throws CategoryNotExistException {
+        Optional<Category> r = repo.findById(id);
+        if(r.isEmpty()){
+            throw new CategoryNotExistException();
+        }
+        return r;
     }
 
     // Crear la nueva categoria que queramos

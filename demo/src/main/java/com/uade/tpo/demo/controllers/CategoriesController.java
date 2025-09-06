@@ -7,8 +7,7 @@ import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.dto.CategoryRequest;
 import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
-import com.uade.tpo.demo.service.CategoryServiceImpl;
-
+import com.uade.tpo.demo.service.CategoryService;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CategoriesController {
 
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
+
 
     @GetMapping
     public ResponseEntity<List <Category>> getCategories(){
@@ -37,7 +37,7 @@ public class CategoriesController {
     
             
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long categoryId) {
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long categoryId) throws CategoryNotExistException {
         Optional<Category> result = categoryService.getCategoryById(categoryId);
         if (result.isPresent())
             return ResponseEntity.ok(result.get());
@@ -61,7 +61,6 @@ public class CategoriesController {
     }
 
 
-    
 
     @PatchMapping("/{categoryId}")
     public ResponseEntity <Category> editByCategory(@PathVariable Long categoryId, @RequestBody CategoryRequest categoryRequest) throws CategoryDuplicateException, CategoryNotExistException{

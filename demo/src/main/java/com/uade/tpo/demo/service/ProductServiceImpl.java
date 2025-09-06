@@ -22,7 +22,7 @@ import com.uade.tpo.demo.repository.CategoryRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
 @Service
-public class ProductServiceImpl {
+public class ProductServiceImpl implements ProductService{
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -34,8 +34,12 @@ public class ProductServiceImpl {
         return productRepository.findAllStock();
     }
      
-    public Optional<Product> getProductById(Long id){
-        return productRepository.findByIdStock(id); 
+    public Optional<Product> getProductById(Long id) throws ProductNotExistException{
+        Optional<Product> p =  productRepository.findByIdStock(id); 
+        if(p.isEmpty()){
+            throw new ProductNotExistException();
+        }
+        return p;
     }
 
     public List<Product> getProductsByAnimalId(Long id) throws AnimalNotExistException{
