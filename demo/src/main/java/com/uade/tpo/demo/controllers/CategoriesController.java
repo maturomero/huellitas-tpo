@@ -61,7 +61,6 @@ public class CategoriesController {
     }
 
 
-    
 
     @PatchMapping("/{categoryId}")
     public ResponseEntity <Category> editByCategory(@PathVariable Long categoryId, @RequestBody CategoryRequest categoryRequest) throws CategoryDuplicateException, CategoryNotExistException{
