@@ -1,6 +1,8 @@
 package com.uade.tpo.demo.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.sql.Blob;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,7 +15,8 @@ public class ProductImages {
     private Long id;
 
     @Column
-    private String urlImage;
+    @JsonIgnore
+    private Blob urlImage;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

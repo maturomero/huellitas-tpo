@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.email = ?1 AND u.status = true")
     List<User> findByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.email = ?1 AND u.status = true")
+    Optional<User> findByUnicEmail(String email);
     
     @Query("SELECT u FROM User u WHERE u.id = ?1 AND u.status = true")
     Optional<User> findActiveById(Long id);

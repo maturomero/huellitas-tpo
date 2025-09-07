@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.uade.tpo.demo.entity.ProductImages;
-
 import java.util.List;
 
 
@@ -13,4 +12,7 @@ import java.util.List;
 public interface ProductImagesRepository extends JpaRepository<ProductImages, Long> {
     @Query("SELECT c FROM ProductImages c WHERE c.product.id = ?1 ")
     List<ProductImages> findProdcutById(Long productId);
+
+    @Query("SELECT c.id FROM ProductImages c WHERE c.product.id = ?1 ")
+    List<Long> findProductById(Long productId);
 }
