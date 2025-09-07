@@ -121,9 +121,11 @@ public class ProductServiceImpl implements ProductService{
         if(c.isEmpty()){
             throw new CategoryNotExistException();
         }
+        Double priceDiscount = p.getPrice() * 0.95;
         Product product = new Product(p.getName(), p.getPrice(),p.getStock());
         product.setAnimal(animals);
         product.setCategory(c.get());
+        product.setPriceWithTransferDiscount(priceDiscount);
 
         return productRepository.save(product);
     }

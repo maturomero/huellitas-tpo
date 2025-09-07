@@ -9,7 +9,6 @@ public class UserResponse {
     private Long id;
     private String fullname;
     private String email;
-    private String password;
     
     public UserResponse(Long id, String fullname, String email){
         this.id = id;

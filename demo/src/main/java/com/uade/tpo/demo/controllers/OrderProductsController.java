@@ -1,6 +1,8 @@
 package com.uade.tpo.demo.controllers;
 
 import com.uade.tpo.demo.entity.OrderProduct;
+import com.uade.tpo.demo.exceptions.OrderNotExistException;
+import com.uade.tpo.demo.exceptions.OrderProductNotExistException;
 import com.uade.tpo.demo.service.OrderProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class OrderProductsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderProduct> getOrderProductById(@PathVariable Long id) {
+    public ResponseEntity<OrderProduct> getOrderProductById(@PathVariable Long id) throws OrderProductNotExistException {
         Optional<OrderProduct> orderProduct = orderProductService.getOrderProductById(id);
         if (orderProduct.isPresent()) {
             return ResponseEntity.ok(orderProduct.get());
@@ -32,7 +34,7 @@ public class OrderProductsController {
     }
 
     @GetMapping("/orders/{orderId}")
-    public List<OrderProduct> getOrderProductByOrderId(@PathVariable Long orderId) {
+    public List<OrderProduct> getOrderProductByOrderId(@PathVariable Long orderId) throws OrderNotExistException {
         return orderProductService.getOrderProductByOrderId(orderId);
     }
 

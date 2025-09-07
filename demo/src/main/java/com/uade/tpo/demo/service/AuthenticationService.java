@@ -1,5 +1,7 @@
 package com.uade.tpo.demo.service;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +22,18 @@ import lombok.RequiredArgsConstructor;
 
 public class AuthenticationService {
 
+        
         private final UserRepository repository;
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
+        
+
+
+        public boolean findByEmail(String email){
+        return !repository.findByEmail(email).isEmpty();
+}
+        
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = User.builder()
