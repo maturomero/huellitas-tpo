@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 public class AuthenticationService {
 
+        
         private final UserRepository repository;
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
