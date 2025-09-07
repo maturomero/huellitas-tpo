@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest userRequest) throws UserDuplicateException {
         User user = userService.registerUser(userRequest.getFullname(), userRequest.getEmail(), userRequest.getPassword());
-        UserResponse userResponse = new UserResponse(user.getId(), user.getFullname(), user.getEmail(), user.isAdmin());
+        UserResponse userResponse = new UserResponse(user.getId(), user.getFullname(), user.getEmail());
         return ResponseEntity.ok(userResponse);
     }
 
@@ -40,7 +40,7 @@ public class UserController {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            UserResponse userResponse = new UserResponse(user.getId(), user.getFullname(), user.getEmail(), user.isAdmin());
+            UserResponse userResponse = new UserResponse(user.getId(), user.getFullname(), user.getEmail());
             return ResponseEntity.ok(userResponse);
         }
 
@@ -67,7 +67,7 @@ public class UserController {
             return ResponseEntity.notFound().build() ;
         }
 
-        }
+    }
 
 
 
