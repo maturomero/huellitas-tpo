@@ -4,8 +4,6 @@ import java.sql.Blob;
 import java.util.List;
 
 import com.uade.tpo.demo.entity.ProductImages;
-import com.uade.tpo.demo.entity.dto.ProductImageUpload;
-import com.uade.tpo.demo.entity.dto.ProductImagesResponse2;
 import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
 
 public interface ProductImagesService {

@@ -10,13 +10,11 @@ public class UserResponse {
     private String fullname;
     private String email;
     private String password;
-    private boolean admin;
     
-    public UserResponse(Long id, String fullname, String email, boolean admin){
+    public UserResponse(Long id, String fullname, String email){
         this.id = id;
         this.fullname = fullname;
         this.email = email;
-        this.admin = admin;
     }
 
 }

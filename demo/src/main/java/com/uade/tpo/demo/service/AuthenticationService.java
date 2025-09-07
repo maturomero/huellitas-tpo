@@ -2,6 +2,7 @@ package com.uade.tpo.demo.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class AuthenticationService {
+
         private final UserRepository repository;
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
@@ -24,11 +27,13 @@ public class AuthenticationService {
 
         public AuthenticationResponse register(RegisterRequest request) {
                 var user = User.builder()
-                                .fullname(request.)
+                                .fullname(request.getFullName())
                                 .email(request.getEmail())
                                 .password(passwordEncoder.encode(request.getPassword()))
                                 .role(request.getRole())
+                                .status(true)
                                 .build();
+
 
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
@@ -38,13 +43,17 @@ public class AuthenticationService {
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
+                System.out.println(request.getEmail());
+                System.out.println(request.getPassword());
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
                                                 request.getEmail(),
                                                 request.getPassword()));
-                var user = repository.findByEmail(request.getEmail())
-                                .orElseThrow();
+                var user = repository.findByUnicEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
                 var jwtToken = jwtService.generateToken(user);
+                
                 return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .build();

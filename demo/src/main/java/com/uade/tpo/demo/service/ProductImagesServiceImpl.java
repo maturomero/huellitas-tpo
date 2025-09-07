@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.ProductImages;
-import com.uade.tpo.demo.entity.dto.AddFileRequest;
-import com.uade.tpo.demo.entity.dto.ProductImageUpload;
-import com.uade.tpo.demo.entity.dto.ProductImagesResponse2;
 import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
 import com.uade.tpo.demo.repository.ProductImagesRepository;
 import com.uade.tpo.demo.repository.ProductRepository;

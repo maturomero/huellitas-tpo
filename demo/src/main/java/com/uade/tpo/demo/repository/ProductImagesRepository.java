@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.uade.tpo.demo.entity.ProductImages;
-import com.uade.tpo.demo.entity.dto.ProductImagesResponse2;
-
 import java.util.List;
 
 

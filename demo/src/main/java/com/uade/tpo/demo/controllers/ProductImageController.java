@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uade.tpo.demo.entity.ProductImages;
 import com.uade.tpo.demo.entity.dto.AddFileRequest;
 import com.uade.tpo.demo.entity.dto.ProductImageResponse;
-import com.uade.tpo.demo.entity.dto.ProductImageUpload;
-import com.uade.tpo.demo.entity.dto.ProductImagesResponse2;
 import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
 import com.uade.tpo.demo.service.ProductImagesService;
 
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
