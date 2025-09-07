@@ -43,6 +43,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private boolean status = true;
+    
 
     @Enumerated(EnumType.STRING)
     private Role role;
