@@ -45,9 +45,9 @@ public class OrdersController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) throws OrderNotExistException {
+    public ResponseEntity<String> deleteOrder(@PathVariable Long id) throws OrderNotExistException {
         orderService.deleteOrderById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("La orden se eliminó con éxito");
     }
 }
 

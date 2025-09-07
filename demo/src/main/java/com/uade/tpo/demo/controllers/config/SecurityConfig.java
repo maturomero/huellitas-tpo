@@ -29,26 +29,35 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(req -> req
-                .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/error/**").permitAll()
+
+                //USER
+                .requestMatchers(HttpMethod.POST,"/auth/register/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll()
+                .requestMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority(Role.ADMIN.name())
+
 
                 //PRODUCT
                 .requestMatchers(HttpMethod.GET,"/products/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/products").hasAnyAuthority(Role.ADMIN.name())
-                .requestMatchers(HttpMethod.DELETE, "/products/**").hasAnyAuthority(Role.ADMIN.name())
                 .requestMatchers(HttpMethod.PATCH, "/products/**").hasAnyAuthority(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.DELETE, "/products/**").hasAnyAuthority(Role.ADMIN.name())
+                
 
                 //CATEGORY
                 .requestMatchers(HttpMethod.GET,"/categories/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/categories").hasAnyAuthority(Role.ADMIN.name())
-                .requestMatchers(HttpMethod.DELETE, "/categories/**").hasAnyAuthority(Role.ADMIN.name())
                 .requestMatchers(HttpMethod.PATCH, "/categories/**").hasAnyAuthority(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.DELETE, "/categories/**").hasAnyAuthority(Role.ADMIN.name())
+                
 
                 //ANIMAL
                 .requestMatchers(HttpMethod.GET,"/animals/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/animals").hasAnyAuthority(Role.ADMIN.name())
-                .requestMatchers(HttpMethod.DELETE, "/animals/**").hasAnyAuthority(Role.ADMIN.name())
                 .requestMatchers(HttpMethod.PATCH, "/animals/**").hasAnyAuthority(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.DELETE, "/animals/**").hasAnyAuthority(Role.ADMIN.name())
+                
 
                 //PRODUCT IMAGE
                 .requestMatchers(HttpMethod.GET,"/products/images/**").permitAll()
@@ -58,11 +67,11 @@ public class SecurityConfig {
                 //ORDER
                 .requestMatchers(HttpMethod.GET,"/orders/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/orders").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/orders/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/orders/**").hasAnyAuthority(Role.ADMIN.name())
 
                 //ORDER PRODUCT
                 .requestMatchers(HttpMethod.GET,"/order_products/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/order_products").permitAll()
+                .requestMatchers(HttpMethod.POST, "/order_products").hasAnyAuthority(Role.ADMIN.name())
 
                 //AUTHENTICATION
 

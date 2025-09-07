@@ -36,17 +36,19 @@ public class ProductImageController {
     @Autowired
     private ProductImagesService productImagesService;
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<List<Long>> getProductImages(@PathVariable Long productId) throws ProductImagesNotExistException {
-        List<Long> i = productImagesService.getProductImgaesById(productId);
-        return ResponseEntity.ok(i);
-    }
+    
     
     @PostMapping(value = "/{productId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductImages> uploadImage(@PathVariable Long productId , @ModelAttribute AddFileRequest addFileRequest) throws IOException, SerialException, SQLException{
         byte[] bytes = addFileRequest.getFile().getBytes();
         Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
         ProductImages i = productImagesService.uploadImage(productId, blob);
+        return ResponseEntity.ok(i);
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<List<Long>> getProductImages(@PathVariable Long productId) throws ProductImagesNotExistException {
+        List<Long> i = productImagesService.getProductImgaesById(productId);
         return ResponseEntity.ok(i);
     }
 

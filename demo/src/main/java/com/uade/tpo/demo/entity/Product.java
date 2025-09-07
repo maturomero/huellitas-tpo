@@ -18,6 +18,7 @@ public class Product {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.priceWithTransferDiscount = priceWithTransferDiscount;
     }
 
     @Id
@@ -35,6 +36,9 @@ public class Product {
 
     @Column(nullable = false)
     private boolean status = true;
+
+    @Column
+    private double priceWithTransferDiscount;
     
     @OneToMany(mappedBy = "product")
     @JsonManagedReference   //esta notacion es para marcar quien es el padre en la relacion bidireccional
@@ -47,4 +51,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+
+
 }
