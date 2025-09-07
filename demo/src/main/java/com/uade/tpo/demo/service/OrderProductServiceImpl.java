@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.demo.entity.OrderProduct;
+import com.uade.tpo.demo.exceptions.OrderNotExistException;
+import com.uade.tpo.demo.exceptions.OrderProductNotExistException;
 import com.uade.tpo.demo.repository.OrderProductRepository;
 @Service
 public class OrderProductServiceImpl implements OrderProductService{
@@ -17,16 +19,24 @@ public class OrderProductServiceImpl implements OrderProductService{
         return orderProductRepository.save(orderProduct);
     }
 
-    public Optional<OrderProduct> getOrderProductById(Long id) {
-        return orderProductRepository.findById(id);
+    public Optional<OrderProduct> getOrderProductById(Long id) throws OrderProductNotExistException {
+        Optional<OrderProduct> oPR = orderProductRepository.findById(id);
+        if(oPR.isEmpty()){
+            throw new OrderProductNotExistException();
+        }
+        return oPR;
     }
 
     public List<OrderProduct> getAllOrderProducts() {
         return orderProductRepository.findAll();
     }
 
-     public List<OrderProduct> getOrderProductByOrderId(Long orderId) {
-        return orderProductRepository.findByOrderId(orderId).get();
+    public List<OrderProduct> getOrderProductByOrderId(Long orderId) throws OrderNotExistException {
+        List<OrderProduct> oP = orderProductRepository.findByOrderId(orderId).get();
+        if(oP.isEmpty()){
+            throw new OrderNotExistException();
+        }
+        return oP;
     }
     
 }
