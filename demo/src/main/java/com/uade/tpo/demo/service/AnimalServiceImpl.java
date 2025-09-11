@@ -3,6 +3,7 @@ package com.uade.tpo.demo.service;
 import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.repository.AnimalRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,12 @@ public class AnimalServiceImpl implements AnimalService{
     private  AnimalRepository repo;
 
     // Listamos todos los animales
-    public List<Animal> getAnimals() {
-        return repo.findAll();
+    public List<Animal> getAnimals() throws NoEntitiesFoundException {
+        List<Animal> a = repo.findAll();
+        if(a.isEmpty()){
+            throw new NoEntitiesFoundException();
+        }
+        return a;
     }
 
     // Buscamos por algun ID especidifco
