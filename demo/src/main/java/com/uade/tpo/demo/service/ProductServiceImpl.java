@@ -13,6 +13,7 @@ import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.dto.ProductRequest;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.ProductDuplicateException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
 import com.uade.tpo.demo.exceptions.ProductRequiredFieldException;
@@ -30,8 +31,12 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private AnimalRepository animalRepository;
     
-    public List<Product> getProducts(){
-        return productRepository.findAllStock();
+    public List<Product> getProducts() throws NoEntitiesFoundException{
+        List<Product> p = productRepository.findAllStock();
+        if(p.isEmpty()){
+            throw new NoEntitiesFoundException();
+        }
+        return p;
     }
      
     public Optional<Product> getProductById(Long id) throws ProductNotExistException{
@@ -58,8 +63,12 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findByCategoryId(id);
     }
 
-    public List<Product> getProductByName(String name){
-        return productRepository.findByExactName(name);
+    public List<Product> getProductByName(String name) throws NoEntitiesFoundException{
+        List<Product> p = productRepository.findAnyByExactName(name);
+        if(p.isEmpty()){
+            throw new NoEntitiesFoundException();
+        }
+        return p;
     }
 
     public List<Product> getProductsByPrice(double priceMin, double priceMax){

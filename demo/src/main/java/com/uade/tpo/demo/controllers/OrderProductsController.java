@@ -1,6 +1,7 @@
 package com.uade.tpo.demo.controllers;
 
 import com.uade.tpo.demo.entity.OrderProduct;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.OrderNotExistException;
 import com.uade.tpo.demo.exceptions.OrderProductNotExistException;
 import com.uade.tpo.demo.service.OrderProductService;
@@ -20,7 +21,7 @@ public class OrderProductsController {
     private OrderProductService orderProductService;
 
     @GetMapping
-    public List<OrderProduct> getAllOrderProducts() {
+    public List<OrderProduct> getAllOrderProducts() throws NoEntitiesFoundException {
         return orderProductService.getAllOrderProducts();
     }
 
