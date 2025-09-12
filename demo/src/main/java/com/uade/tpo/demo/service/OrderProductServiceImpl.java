@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uade.tpo.demo.entity.OrderProduct;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.OrderNotExistException;
 import com.uade.tpo.demo.exceptions.OrderProductNotExistException;
 import com.uade.tpo.demo.repository.OrderProductRepository;
@@ -27,8 +28,12 @@ public class OrderProductServiceImpl implements OrderProductService{
         return oPR;
     }
 
-    public List<OrderProduct> getAllOrderProducts() {
-        return orderProductRepository.findAll();
+    public List<OrderProduct> getAllOrderProducts() throws NoEntitiesFoundException {
+        List<OrderProduct> oP = orderProductRepository.findAll();
+        if(oP.isEmpty()){
+            throw new NoEntitiesFoundException();
+        }
+        return oP;
     }
 
     public List<OrderProduct> getOrderProductByOrderId(Long orderId) throws OrderNotExistException {

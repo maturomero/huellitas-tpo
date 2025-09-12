@@ -12,6 +12,7 @@ import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.dto.ProductRequest;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.ProductDuplicateException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
 import com.uade.tpo.demo.exceptions.ProductNotNegativeException;
@@ -35,7 +36,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts(){
+    public ResponseEntity<List<Product>> getProducts() throws NoEntitiesFoundException{
         return ResponseEntity.ok(productService.getProducts());
     }
     
@@ -62,6 +63,11 @@ public class ProductController {
     @GetMapping("/animals/{id}")
     public ResponseEntity<List<Product>> getProductsByAnimal(@PathVariable Long id) throws AnimalNotExistException {
         return ResponseEntity.ok(productService.getProductsByAnimalId(id));
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<List<Product>> getProductByName(@PathVariable String name) throws NoEntitiesFoundException{
+        return ResponseEntity.ok(productService.getProductByName(name));
     }
 
     @PostMapping
