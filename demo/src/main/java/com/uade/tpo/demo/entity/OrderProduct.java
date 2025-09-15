@@ -22,6 +22,9 @@ public class OrderProduct {
     @Column(nullable = false)
     private int unit;
 
+    @Column(nullable = false)
+    private Double priceDiscount;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     private Date date;
