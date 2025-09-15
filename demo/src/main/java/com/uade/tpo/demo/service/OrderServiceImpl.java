@@ -85,9 +85,11 @@ public class OrderServiceImpl implements OrderService {
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setProductId(productId);
             if (isTransfer) {
-                orderProduct.setPrice(priceDiscount);
+                orderProduct.setPrice(price);
+                orderProduct.setPriceDiscount(priceDiscount);
             } else {
                 orderProduct.setPrice(price);
+                orderProduct.setPriceDiscount(price);
             }
             
             orderProduct.setUnit(units);
@@ -104,8 +106,12 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         if (isTransfer) {
+            order.setPrice(totalPrice);
+            order.setDiscount(-(totalPrice - totalPriceDiscount));
             order.setTotalPrice(totalPriceDiscount);
         } else {
+            order.setPrice(totalPrice);
+            order.setDiscount(0);
             order.setTotalPrice(totalPrice);
         }
         order.setDate(new Date());
