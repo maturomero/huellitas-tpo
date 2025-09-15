@@ -17,6 +17,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private  CategoryRepository repo;
 
+
     // Listamos toda las categorias
     public List<Category> getCategories() throws NoEntitiesFoundException {
         List<Category> c = repo.findAll();
@@ -26,7 +27,12 @@ public class CategoryServiceImpl implements CategoryService {
         return c;
     }
 
-    // Buscamos por algun ID especidifco
+    public List<Category> getCategory() {
+        return repo.findAll();
+
+    }
+
+
     public Optional<Category> getCategoryById(Long id) throws CategoryNotExistException {
         Optional<Category> r = repo.findById(id);
         if(r.isEmpty()){
@@ -35,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         return r;
     }
 
-    // Crear la nueva categoria que queramos
+
     public Category createCategory(String description) throws CategoryDuplicateException {
 
         if (!repo.findByDescription(description).isEmpty()){
@@ -46,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
         return repo.save(category);
     }
 
-    // Eliminar por id
+
     public void deleteCategory(long id) throws CategoryNotExistException {
         Optional<Category> c = repo.findById(id);
         if(c.isEmpty()){
@@ -56,7 +62,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-    //Editar por categoria por id
     public Category editCategory(Long id, String newDescription) throws CategoryDuplicateException, CategoryNotExistException{
         
         Optional<Category> c = repo.findById(id);

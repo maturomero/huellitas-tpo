@@ -27,7 +27,7 @@ public class AnimalServiceImpl implements AnimalService{
         return a;
     }
 
-    // Buscamos por algun ID especidifco
+
     public Optional<Animal> getAnimalById(Long id) throws AnimalNotExistException{
         Optional<Animal> r = repo.findById(id);
         if(r.isEmpty()){
@@ -36,7 +36,7 @@ public class AnimalServiceImpl implements AnimalService{
         return r;
     }
 
-    // Crear el nuevo animal que queramos
+
     public Animal createAnimals(String name) throws AnimalDuplicateException {
 
         if (!repo.findByName(name).isEmpty()){
@@ -47,7 +47,7 @@ public class AnimalServiceImpl implements AnimalService{
         return repo.save(Animals);
     }
 
-    // Eliminar por id
+
     public void deleteAnimal(long id) throws AnimalNotExistException {
         Optional<Animal> c = repo.findById(id);
         if(c.isEmpty()){
@@ -57,7 +57,6 @@ public class AnimalServiceImpl implements AnimalService{
     }
 
 
-    //Editar por animal por id
     public Animal editAnimal(Long id, String newName) throws AnimalDuplicateException, AnimalNotExistException{
         
         Optional<Animal> c = repo.findById(id);

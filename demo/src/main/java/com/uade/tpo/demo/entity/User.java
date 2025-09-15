@@ -50,8 +50,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // por si igual lo usa Spring Security internamente
+      // por si igual lo usa Spring Security internamente
         if (role == null) return List.of();          
+
+        if (role == null) return List.of();
+
         return List.of(new SimpleGrantedAuthority(role.name()));
 }
 
