@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     public List<Product> getProductByName(String name) throws NoEntitiesFoundException{
-        List<Product> p = productRepository.findAnyByExactName(name);
+        List<Product> p = productRepository.findByName(name);
         if(p.isEmpty()){
             throw new NoEntitiesFoundException();
         }

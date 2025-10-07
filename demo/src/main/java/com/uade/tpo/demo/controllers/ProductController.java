@@ -65,7 +65,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductsByAnimalId(id));
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<List<Product>> getProductByName(@PathVariable String name) throws NoEntitiesFoundException{
         return ResponseEntity.ok(productService.getProductByName(name));
     }
