@@ -7,6 +7,7 @@ import com.uade.tpo.demo.entity.Animal;
 import com.uade.tpo.demo.entity.dto.AnimalRequest;
 import com.uade.tpo.demo.exceptions.AnimalDuplicateException;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.service.AnimalService;
 
 
@@ -31,7 +32,7 @@ public class AnimalsControllers {
     private AnimalService AnimalService;
 
     @GetMapping
-    public ResponseEntity<List <Animal>> getAnimals(){
+    public ResponseEntity<List <Animal>> getAnimals() throws NoEntitiesFoundException{
         return ResponseEntity.ok(AnimalService.getAnimals());
     }
     

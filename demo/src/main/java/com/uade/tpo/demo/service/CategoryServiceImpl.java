@@ -3,6 +3,7 @@ package com.uade.tpo.demo.service;
 import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.repository.CategoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,18 @@ public class CategoryServiceImpl implements CategoryService {
     private  CategoryRepository repo;
 
 
-    public List<Category> getCategories() {
+    // Listamos toda las categorias
+    public List<Category> getCategories() throws NoEntitiesFoundException {
+        List<Category> c = repo.findAll();
+        if(c.isEmpty()){
+            throw new NoEntitiesFoundException();
+        }
+        return c;
+    }
+
+    public List<Category> getCategory() {
         return repo.findAll();
+
     }
 
 

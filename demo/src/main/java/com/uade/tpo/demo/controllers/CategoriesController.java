@@ -7,6 +7,7 @@ import com.uade.tpo.demo.entity.Category;
 import com.uade.tpo.demo.entity.dto.CategoryRequest;
 import com.uade.tpo.demo.exceptions.CategoryDuplicateException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.service.CategoryService;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class CategoriesController {
 
 
     @GetMapping
-    public ResponseEntity<List <Category>> getCategories(){
+    public ResponseEntity<List <Category>> getCategories() throws NoEntitiesFoundException{
         return ResponseEntity.ok(categoryService.getCategories());
     }
     

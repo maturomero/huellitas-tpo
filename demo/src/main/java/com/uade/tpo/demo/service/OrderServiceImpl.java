@@ -9,6 +9,7 @@ import com.uade.tpo.demo.entity.dto.OrderRequest;
 import com.uade.tpo.demo.enums.PaymentMethod;
 import com.uade.tpo.demo.enums.StatusOrder;
 import com.uade.tpo.demo.exceptions.InsufficientStockException;
+import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.OrderNotExistException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
 import com.uade.tpo.demo.exceptions.UserNotFoundException;
@@ -46,8 +47,12 @@ public class OrderServiceImpl implements OrderService {
         return o;
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<Order> getAllOrders() throws NoEntitiesFoundException {
+        List<Order> o = orderRepository.findAll();
+        if(o.isEmpty()){
+            throw new NoEntitiesFoundException();
+        }
+        return o;
     }
 
     public Order createOrder(OrderRequest orderRequest)
@@ -80,9 +85,11 @@ public class OrderServiceImpl implements OrderService {
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setProductId(productId);
             if (isTransfer) {
-                orderProduct.setPrice(priceDiscount);
+                orderProduct.setPrice(price);
+                orderProduct.setPriceDiscount(priceDiscount);
             } else {
                 orderProduct.setPrice(price);
+                orderProduct.setPriceDiscount(price);
             }
             
             orderProduct.setUnit(units);
@@ -99,8 +106,12 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         if (isTransfer) {
+            order.setPrice(totalPrice);
+            order.setDiscount(-(totalPrice - totalPriceDiscount));
             order.setTotalPrice(totalPriceDiscount);
         } else {
+            order.setPrice(totalPrice);
+            order.setDiscount(0);
             order.setTotalPrice(totalPrice);
         }
         order.setDate(new Date());
