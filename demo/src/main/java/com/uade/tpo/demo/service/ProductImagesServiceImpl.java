@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.ProductImages;
 import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
+import com.uade.tpo.demo.exceptions.ProductNotExistException;
 import com.uade.tpo.demo.repository.ProductImagesRepository;
 import com.uade.tpo.demo.repository.ProductRepository;
 
@@ -22,11 +23,28 @@ public class ProductImagesServiceImpl implements ProductImagesService {
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductImages uploadImage(Long productId, Blob blobImage){
-        ProductImages pI = new ProductImages();
+    public ProductImages uploadImage(Long productId, Blob blobImage) throws ProductNotExistException{
         Optional<Product> p = productRepository.findById(productId);
+        if(p.isEmpty()){
+            throw new ProductNotExistException();
+        }
+        Product product = p.get();
+
+        List<ProductImages> existentes = productImagesRepository.findImagesByProdcutId(productId);
+
+        ProductImages pI;
+        if (existentes.isEmpty()) {
+
+            pI = new ProductImages();
+            pI.setProduct(product);
+
+        } else {
+
+            pI = existentes.get(0);
+        }
+
+
         pI.setUrlImage(blobImage);
-        pI.setProduct(p.get());
         
         return productImagesRepository.save(pI);
         
@@ -42,7 +60,7 @@ public class ProductImagesServiceImpl implements ProductImagesService {
     }
     
     public List<Long> getProductImgaesById(Long productId) throws ProductImagesNotExistException{
-        List<Long> pI = productImagesRepository.findProductById(productId);
+        List<Long> pI = productImagesRepository.findImageIdsByProductId(productId);
         if(pI.isEmpty()){
             throw new ProductImagesNotExistException();
         }
@@ -58,7 +76,7 @@ public class ProductImagesServiceImpl implements ProductImagesService {
     }
 
     public void deleteAllImagesProduct(Long productId) throws ProductImagesNotExistException{
-    List<ProductImages> pI = productImagesRepository.findProdcutById(productId);
+    List<ProductImages> pI = productImagesRepository.findImagesByProdcutId(productId);
     if(pI.isEmpty()){
         throw new ProductImagesNotExistException();
     }

@@ -14,6 +14,7 @@ import com.uade.tpo.demo.entity.ProductImages;
 import com.uade.tpo.demo.entity.dto.AddFileRequest;
 import com.uade.tpo.demo.entity.dto.ProductImageResponse;
 import com.uade.tpo.demo.exceptions.ProductImagesNotExistException;
+import com.uade.tpo.demo.exceptions.ProductNotExistException;
 import com.uade.tpo.demo.service.ProductImagesService;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class ProductImageController {
     
     
     @PostMapping(value = "/{productId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductImages> uploadImage(@PathVariable Long productId , @ModelAttribute AddFileRequest addFileRequest) throws IOException, SerialException, SQLException{
+    public ResponseEntity<ProductImages> uploadImage(@PathVariable Long productId , @ModelAttribute AddFileRequest addFileRequest) throws IOException, SerialException, SQLException, ProductNotExistException{
         byte[] bytes = addFileRequest.getFile().getBytes();
         Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
         ProductImages i = productImagesService.uploadImage(productId, blob);
