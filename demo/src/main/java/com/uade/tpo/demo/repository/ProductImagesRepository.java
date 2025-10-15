@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface ProductImagesRepository extends JpaRepository<ProductImages, Long> {
     @Query("SELECT c FROM ProductImages c WHERE c.product.id = ?1 ")
-    List<ProductImages> findProdcutById(Long productId);
+    List<ProductImages> findImagesByProdcutId(Long productId);
 
     @Query("SELECT c.id FROM ProductImages c WHERE c.product.id = ?1 ")
-    List<Long> findProductById(Long productId);
+    List<Long> findImageIdsByProductId(Long productId);
 }
