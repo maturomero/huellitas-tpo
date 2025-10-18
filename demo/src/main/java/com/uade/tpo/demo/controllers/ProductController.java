@@ -36,8 +36,8 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() throws NoEntitiesFoundException{
-        return ResponseEntity.ok(productService.getProducts());
+    public ResponseEntity<List<Product>> getProducts(@RequestParam int sinStock) throws NoEntitiesFoundException{
+        return ResponseEntity.ok(productService.getProducts(sinStock));
     }
     
 

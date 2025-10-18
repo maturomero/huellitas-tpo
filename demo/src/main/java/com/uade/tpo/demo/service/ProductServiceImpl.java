@@ -31,8 +31,13 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private AnimalRepository animalRepository;
     
-    public List<Product> getProducts() throws NoEntitiesFoundException{
-        List<Product> p = productRepository.findAllStock();
+    public List<Product> getProducts(int sinStock) throws NoEntitiesFoundException{
+        List<Product> p = new ArrayList<>();
+        if (sinStock == 1){
+            p = productRepository.availableProducts();
+        }else{
+            p = productRepository.findAllStock();
+        }
         if(p.isEmpty()){
             throw new NoEntitiesFoundException();
         }
