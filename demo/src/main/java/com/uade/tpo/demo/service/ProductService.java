@@ -14,7 +14,7 @@ import com.uade.tpo.demo.exceptions.ProductNotNegativeException;
 import com.uade.tpo.demo.exceptions.ProductRequiredFieldException;
 
 public interface ProductService {
-    public List<Product> getProducts() throws NoEntitiesFoundException;
+    public List<Product> getProducts(int sinStock) throws NoEntitiesFoundException;
     public Optional<Product> getProductById(Long id) throws ProductNotExistException;
     public List<Product> getProductsByAnimalId(Long id) throws AnimalNotExistException;
     public List<Product> getProductByCategoryId(Long id) throws CategoryNotExistException;
