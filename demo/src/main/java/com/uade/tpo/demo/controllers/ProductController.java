@@ -12,6 +12,7 @@ import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.dto.ProductRequest;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.InsufficientStockException;
 import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.ProductDuplicateException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
@@ -71,7 +72,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createProduct(@RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductDuplicateException, AnimalNotExistException, ProductRequiredFieldException, CategoryNotExistException {
+    public ResponseEntity<Object> createProduct(@RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductDuplicateException, AnimalNotExistException, ProductRequiredFieldException, CategoryNotExistException, InsufficientStockException {
         if(productRequest.getPrice() <= 0){
             throw new ProductNotNegativeException();
         }
@@ -91,7 +92,7 @@ public class ProductController {
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException {
+    public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
         if(productRequest.getPrice() != null && productRequest.getPrice() <= 0){
             throw new ProductNotNegativeException();
         }

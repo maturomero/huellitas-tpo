@@ -13,6 +13,7 @@ import com.uade.tpo.demo.entity.Product;
 import com.uade.tpo.demo.entity.dto.ProductRequest;
 import com.uade.tpo.demo.exceptions.AnimalNotExistException;
 import com.uade.tpo.demo.exceptions.CategoryNotExistException;
+import com.uade.tpo.demo.exceptions.InsufficientStockException;
 import com.uade.tpo.demo.exceptions.NoEntitiesFoundException;
 import com.uade.tpo.demo.exceptions.ProductDuplicateException;
 import com.uade.tpo.demo.exceptions.ProductNotExistException;
@@ -80,7 +81,7 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findByPrice(priceMin, priceMax);
     }
 
-    public Product createProduct(ProductRequest p ) throws ProductDuplicateException, AnimalNotExistException, ProductRequiredFieldException, ProductNotNegativeException, CategoryNotExistException{
+    public Product createProduct(ProductRequest p ) throws ProductDuplicateException, AnimalNotExistException, ProductRequiredFieldException, ProductNotNegativeException, CategoryNotExistException, InsufficientStockException{
        
         
         if (p.getName() == null || p.getName().isEmpty()) {
@@ -99,7 +100,7 @@ public class ProductServiceImpl implements ProductService{
             throw new ProductNotNegativeException();
         }
         if (p.getStock().intValue() < 0) {
-            throw new ProductNotNegativeException();
+            throw new InsufficientStockException();
         }
 
         if(!productRepository.findAnyByExactName(p.getName()).isEmpty()){
