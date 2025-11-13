@@ -168,6 +168,8 @@ public class ProductServiceImpl implements ProductService{
         }
         if (pRequest.getPrice() != null) {
             p.setPrice(pRequest.getPrice());
+            Double priceDiscount = p.getPrice() * 0.95;
+            p.setPriceWithTransferDiscount(priceDiscount);
         }
         if (pRequest.getStock() != null) {
             p.setStock(pRequest.getStock());
