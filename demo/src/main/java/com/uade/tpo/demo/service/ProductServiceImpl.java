@@ -225,4 +225,12 @@ public class ProductServiceImpl implements ProductService{
         p.setStock(p.getStock() - quantity);
         productRepository.save(p);
     }
+
+    public Optional<Product> getProductByIdDeleted(Long id) throws ProductNotExistException{
+        Optional<Product> p =  productRepository.findByIdDeleted(id); 
+        if(p.isEmpty()){
+            throw new ProductNotExistException();
+        }
+        return p;
+    }
 }

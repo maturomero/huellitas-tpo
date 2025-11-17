@@ -90,7 +90,14 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Se elimino el producto. ");
     }
-    
+    @GetMapping("/deleted/{id}")
+    public ResponseEntity<Product> getProductByIdDeleted(@PathVariable Long id) throws ProductNotExistException {
+        Optional<Product> p = productService.getProductByIdDeleted(id);
+        if(p.isPresent()){
+            return ResponseEntity.ok(p.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
     @PatchMapping("/{id}")
     public ResponseEntity<String> editProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotNegativeException, ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException{
         if(productRequest.getPrice() != null && productRequest.getPrice() <= 0){
