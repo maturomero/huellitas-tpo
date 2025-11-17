@@ -25,5 +25,6 @@ public interface ProductService {
     public void deleteProduct(Long id) throws ProductNotExistException;
     public void editProduct(Long id, ProductRequest pRequest) throws ProductNotExistException, CategoryNotExistException, AnimalNotExistException, ProductRequiredFieldException;
     public void reduceStock(Long id, int quantity) throws ProductNotExistException;
+    public Optional<Product> getProductByIdDeleted(Long id) throws ProductNotExistException;
 
 }

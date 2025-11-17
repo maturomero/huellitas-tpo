@@ -93,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
             }
             
             orderProduct.setUnit(units);
+            orderProduct.setName(product.getName());
 
             totalPrice += price * units;
             totalPriceDiscount += priceDiscount * units;

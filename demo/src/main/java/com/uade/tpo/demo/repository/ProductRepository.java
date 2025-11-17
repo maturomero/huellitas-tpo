@@ -39,4 +39,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT c FROM Product c WHERE c.id = ?1 and c.status = true")
     Optional<Product> findByIdStock(Long id);
 
+    @Query("SELECT c FROM Product c WHERE c.id = ?1 and c.status = false")
+    Optional<Product> findByIdDeleted(Long id);
 }

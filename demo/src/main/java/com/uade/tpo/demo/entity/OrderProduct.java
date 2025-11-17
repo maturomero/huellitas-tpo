@@ -25,6 +25,9 @@ public class OrderProduct {
     @Column(nullable = false)
     private Double priceDiscount;
 
+    @Column(nullable = false)
+    private String name;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     private Date date;
